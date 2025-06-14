@@ -1,0 +1,20 @@
+function inter_arrival = generate_inter_arrival(random_num, is_peak)
+    % Returns inter-arrival time based on peak/non-peak
+    if is_peak
+        % Peak hours use 1-50 range
+        if random_num <= 20       % 1-20
+            inter_arrival = 1;
+        elseif random_num <= 30   % 21-30
+            inter_arrival = 2;
+        elseif random_num <= 50   % 31-50
+            inter_arrival = 3;
+        end
+    else
+        % Non-peak hours use 91-100 range
+        if random_num <= 94       % 91-94 (adjusted for 4% probability)
+            inter_arrival = 4;
+        else                     % 95-100 (adjusted for 6% probability)
+            inter_arrival = 5;
+        end
+    end
+end
