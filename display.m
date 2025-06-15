@@ -3,7 +3,7 @@ function display()
     numVehicles = input('Enter the number of vehicles: ');
     random_nums = 0;
 
-    % Random number generator selection with validation
+    % Random number generator selection
     validInput = false;
     while ~validInput
         fprintf('There are two random number generators: \n');
@@ -12,7 +12,7 @@ function display()
         type_of_generator = input('Enter 1 or 2: ');
 
         if type_of_generator == 1
-            random_nums = lcg(3 * numVehicles); % 3 values per vehicle
+            random_nums = lcg(3 * numVehicles);
             validInput = true;
         elseif type_of_generator == 2
             random_nums = multiplicative(3 * numVehicles);
@@ -22,7 +22,7 @@ function display()
         end
     end
 
-    % Arrays to store parsed random numbers
+    % Parse random numbers
     interArrival = zeros(1, numVehicles);
     petrolTypeRand = zeros(1, numVehicles);
     refuelTimeRand = zeros(1, numVehicles);
@@ -46,7 +46,6 @@ function display()
     fprintf('%d  ', refuelTimeRand);
     fprintf('\n');
 
-    % Initialize arrays for simulation data
     petrolTypeNames = cell(1, numVehicles);
     pricePerLitre = zeros(1, numVehicles);
     litresArray = zeros(1, numVehicles);
@@ -55,30 +54,47 @@ function display()
     arrival_times = zeros(1, numVehicles);
     is_peak_flags = zeros(1, numVehicles);
 
-    % Generate fuel type info and arrival times
+    % Initialize peak/non-peak counters
+    peak_arrival = 0;
+    nonpeak_arrival = 0;
+    peak_first = true;
+    nonpeak_first = true;
+
     for i = 1:numVehicles
-        % Petrol type and pricing
+        % Petrol type
         [ptype, cost] = generate_petrol_type(petrolTypeRand(i));
         petrolTypeNames{i} = ptype;
         pricePerLitre(i) = cost;
         litresArray(i) = input(sprintf('Enter the litres for Vehicle #%d (%s): ', i, petrolTypeNames{i}));
         totalPrice(i) = litresArray(i) * pricePerLitre(i);
 
-        % Arrival time processing
+        % Arrival time logic
         rand_inter = interArrival(i);
         is_peak = rand_inter <= 50;
         is_peak_flags(i) = is_peak;
         inter_time = generate_inter_arrival(rand_inter, is_peak);
         inter_arrival_times(i) = inter_time;
 
-        if i == 1
-            arrival_times(i) = 0;
+        if is_peak
+            if peak_first
+                arrival_times(i) = 0;
+                peak_first = false;
+            else
+                arrival_times(i) = peak_arrival + inter_time;
+            end
+            peak_arrival = arrival_times(i);
         else
-            arrival_times(i) = arrival_times(i - 1) + inter_arrival_times(i);
+            if nonpeak_first
+                arrival_times(i) = 0;
+                nonpeak_first = false;
+            else
+                arrival_times(i) = nonpeak_arrival + inter_time;
+            end
+            nonpeak_arrival = arrival_times(i);
         end
     end
 
-    % Split vehicles into peak and non-peak groups
+    % Split data
     peak_data = [];
     nonpeak_data = [];
     for i = 1:numVehicles
@@ -91,7 +107,7 @@ function display()
         end
     end
 
-    % Display Peak Hour Vehicles
+    % Display Peak
     if ~isempty(peak_data)
         fprintf('\n=== Peak Hour Vehicles (Random 1 to 50) ===\n');
         fprintf('Vehicle Number | Type of Petrol | Quantity (L) | Total Price (RM) | Rand Interarrival | Interarrival | Arrival Time\n');
@@ -99,7 +115,7 @@ function display()
         for i = 1:size(peak_data, 1)
             vehicle_number = peak_data{i, 1};
             inter_display = '-';
-            if vehicle_number ~= 1
+            if i ~= 1
                 inter_display = num2str(peak_data{i, 6});
             end
             fprintf('%-14d | %-14s | %-12.2f | %-16.2f | %-17d | %-13s | %-12d\n', ...
@@ -108,15 +124,15 @@ function display()
         end
     end
 
-    % Display Non-Peak Hour Vehicles
+    % Display Non-Peak
     if ~isempty(nonpeak_data)
-        fprintf('\n=== Non-Peak Hour VehiclesRandom 51 to 100) ===\n');
+        fprintf('\n=== Non-Peak Hour Vehicles (Random 51 to 100) ===\n');
         fprintf('Vehicle Number | Type of Petrol | Quantity (L) | Total Price (RM) | Rand Interarrival | Interarrival | Arrival Time\n');
         fprintf('-----------------------------------------------------------------------------------------------------------------------\n');
         for i = 1:size(nonpeak_data, 1)
             vehicle_number = nonpeak_data{i, 1};
             inter_display = '-';
-            if vehicle_number ~= 1
+            if i ~= 1
                 inter_display = num2str(nonpeak_data{i, 6});
             end
             fprintf('%-14d | %-14s | %-12.2f | %-16.2f | %-17d | %-13s | %-12d\n', ...
