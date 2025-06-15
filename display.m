@@ -1,4 +1,4 @@
-function display()
+function displays()
     fprintf('Welcome to the Petrol Station Simulator! \n');
     numVehicles = input('Enter the number of vehicles: ');
     random_nums = 0;
@@ -106,8 +106,18 @@ function display()
             nonpeak_data = [nonpeak_data; row];
         end
     end
+    
+    %Display Peak simulation log
+    fprintf('\n=== Simulation Log: Peak Hour Vehicles ===\n');
+    for i = 1:size(peak_data, 1)
+        vehicle_number = peak_data{i, 1};
+        arrival_time = peak_data{i, 7};
+        petrol_type = peak_data{i, 2};
+        fprintf('Vehicle %d arrived at minute %d and began refueling with %s at Pump Island.\n', ...
+        vehicle_number, arrival_time, petrol_type);
+    end
 
-    % Display Peak
+    % Display Peak table
     if ~isempty(peak_data)
         fprintf('\n=== Peak Hour Vehicles (Random 1 to 50) ===\n');
         fprintf('Vehicle Number | Type of Petrol | Quantity (L) | Total Price (RM) | Rand Interarrival | Interarrival | Arrival Time\n');
@@ -123,8 +133,19 @@ function display()
                 peak_data{i, 5}, inter_display, peak_data{i, 7});
         end
     end
+    
 
-    % Display Non-Peak
+    % Display Non-Peak Simulation log
+    fprintf('\n=== Simulation Log: Non-Peak Hour Vehicles ===\n');
+    for i = 1:size(nonpeak_data, 1)
+        vehicle_number = nonpeak_data{i, 1};
+        arrival_time = nonpeak_data{i, 7};
+        petrol_type = nonpeak_data{i, 2};
+        fprintf('Vehicle %d arrived at minute %d and began refueling with %s at Pump Island.\n', ...
+        vehicle_number, arrival_time, petrol_type);
+    end
+    
+    % Display Non-Peak table
     if ~isempty(nonpeak_data)
         fprintf('\n=== Non-Peak Hour Vehicles (Random 51 to 100) ===\n');
         fprintf('Vehicle Number | Type of Petrol | Quantity (L) | Total Price (RM) | Rand Interarrival | Interarrival | Arrival Time\n');
