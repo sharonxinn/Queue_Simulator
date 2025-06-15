@@ -1,4 +1,4 @@
-function displays()
+function display()
     fprintf('Welcome to the Petrol Station Simulator! \n');
     numVehicles = input('Enter the number of vehicles: ');
     random_nums = 0;
