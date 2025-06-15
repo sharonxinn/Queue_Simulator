@@ -30,11 +30,6 @@ function display()
     petrolType = zeros(1, numVehicles);
     refuelTime = zeros(1, numVehicles);
     
-    petrolTypeNames = cell(1, numVehicles);
-    pricePerLitre = zeros(1, numVehicles);
-    litresArray = zeros(1, numVehicles);
-    totalPrice = zeros(1, numVehicles);
-    
     for i = 1:numVehicles
         idx = (i - 1) * 3 + 1;
         interArrival(i) = random_nums(idx);  
@@ -54,6 +49,10 @@ function display()
     fprintf('%d  ', refuelTime);
     fprintf('\n');
     
+    petrolTypeNames = cell(1, numVehicles);
+    pricePerLitre = zeros(1, numVehicles);
+    litresArray = zeros(1, numVehicles);
+    totalPrice = zeros(1, numVehicles);    
     for i = 1:numVehicles
         [ptype, cost] = generate_petrol_type(petrolType(i));
         petrolTypeNames{i} = ptype;
