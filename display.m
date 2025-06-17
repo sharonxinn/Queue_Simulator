@@ -1,5 +1,8 @@
 function display()
-    fprintf('Welcome to the Petrol Station Simulator! \n');
+    fprintf('Welcome to the Petrol Station Simulator!\n');
+    fprintf('Below are the table for the time to fill up the petrol, type of petrol and inter- arrival time\n');
+    setup_and_display_tables;
+    fprintf('\n \n ');
     numVehicles = input('Enter the number of vehicles: ');
     random_nums = 0;
 
@@ -29,12 +32,13 @@ function display()
 
     for i = 1:numVehicles
         idx = (i - 1) * 3 + 1;
-        interArrival(i) = fix(random_nums(idx));
-        petrolTypeRand(i) = fix(random_nums(idx + 1));
-        refuelTimeRand(i) = fix(random_nums(idx + 2));
+        interArrival(i) = random_nums(idx);
+        petrolTypeRand(i) = random_nums(idx + 1);
+        refuelTimeRand(i) = random_nums(idx + 2);
     end
 
     % Display generated random numbers
+    fprintf('\n');
     fprintf('Random number for inter-arrival time: ');
     fprintf('%d  ', interArrival);
     fprintf('\n');
@@ -46,11 +50,14 @@ function display()
     fprintf('Random number for refueling time    : ');
     fprintf('%d  ', refuelTimeRand);
     fprintf('\n');
-
+    
+    % Calculate the total price of petrol 
     petrolTypeNames = cell(1, numVehicles);
     pricePerLitre = zeros(1, numVehicles);
     litresArray = zeros(1, numVehicles);
     totalPrice = zeros(1, numVehicles);
+    
+    % Initialized inter_arrival times, arrival times, peak flag
     inter_arrival_times = zeros(1, numVehicles);
     arrival_times = zeros(1, numVehicles);
     is_peak_flags = zeros(1, numVehicles);
@@ -60,7 +67,8 @@ function display()
     nonpeak_arrival = 0;
     peak_first = true;
     nonpeak_first = true;
-
+    
+    fprintf('\n');
     for i = 1:numVehicles
         % Petrol type
         [ptype, cost] = generate_petrol_type(petrolTypeRand(i));
@@ -109,6 +117,10 @@ function display()
     end
 
     % Call processor
+    fprintf('\n====== Peak Hours Log Simulation ====== \n');
     process_and_display(peak_data, 'Peak Hour Vehicles (Random 1 to 50)');
+    
+    fprintf('\n====== Non-Peak Hours Log Simulation ====== \n');
     process_and_display(nonpeak_data, 'Non-Peak Hour Vehicles (Random 51 to 100)');
+   
 end
