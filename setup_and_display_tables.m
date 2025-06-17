@@ -8,7 +8,7 @@ function setup_and_display_tables()
     sim_data = struct();
 
     % Refueling Time Data
-    sim_data.refuel.Time = [4; 5; 6; 7; 8];
+    sim_data.refuel.Time = [5; 6; 7; 8; 9];
     sim_data.refuel.Prob = [0.10; 0.20; 0.40; 0.20; 0.10];
     sim_data.refuel.CDF = cumsum(sim_data.refuel.Prob);
     sim_data.refuel.firstNum = [1; 11; 31; 71; 91];
@@ -23,7 +23,7 @@ function setup_and_display_tables()
     sim_data.petrol.lastNum = [50; 90; 100];
 
     % Inter-Arrival Time Data
-    sim_data.inter.Time = [1; 2; 3; 4; 5];
+    sim_data.inter.Time = [0; 0.5; 1; 1.5; 2];
     sim_data.inter.Prob = [0.2; 0.1; 0.2; 0.4; 0.1];
     sim_data.inter.CDF = cumsum(sim_data.inter.Prob);
     sim_data.inter.firstNum = [1; 21; 31; 51; 91];
