@@ -21,11 +21,22 @@ function process_and_display(data, label)
         refuel = generate_refuel_time(rand_refuel);
         assigned_pump = 0;
 
-        available_pumps = find(arrival >= pump_end_times);
-        if ~isempty(available_pumps)
-            assigned_pump = available_pumps(1);
+        % FreeMat-compatible random line assignment
+        line_no = floor(1 + rand() * 2);
+        if line_no == 1
+            line_pumps = [1, 2];
         else
-            [dummy, assigned_pump] = min(pump_end_times);  % 'dummy' captures the ignored value
+            line_pumps = [3, 4];
+        end
+
+        % Check availability of pumps in that line
+        available_pumps = line_pumps(arrival >= pump_end_times(line_pumps));
+
+        if ~isempty(available_pumps)
+            assigned_pump = available_pumps(1);  % first free pump
+        else
+            [dummy, idx] = min(pump_end_times(line_pumps));  % dummy used to avoid FreeMat error
+            assigned_pump = line_pumps(idx);
         end
 
         begin_time = max(arrival, pump_end_times(assigned_pump));
@@ -54,16 +65,9 @@ function process_and_display(data, label)
         pump_data{i,13} = wait_time;
         pump_data{i,14} = time_spent;
 
-                inter_display = '-';
+        inter_display = '-';
         if i ~= 1
             inter_display = num2str(data{i,7});
-        end
-
-        % Determine line number
-        if assigned_pump <= 2
-            line_no = 1;
-        else
-            line_no = 2;
         end
 
         % Only show refuel details in Pump 1 column if assigned to Pump 1
@@ -77,7 +81,6 @@ function process_and_display(data, label)
             end_str = '-';
         end
 
-        % Use string versions for Pump 1 columns to avoid mismatch
         fprintf(['%10d | %-11s | %13.2f | %17.2f | %18d | %13s | %13d | %4d | ', ...
                  '%15d | %-15s | %-12s | %-9s\n'], ...
                 data{i,2}, data{i,3}, data{i,4}, data{i,5}, data{i,6}, inter_display, ...
