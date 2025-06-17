@@ -29,11 +29,12 @@ function display()
 
     for i = 1:numVehicles
         idx = (i - 1) * 3 + 1;
-        interArrival(i) = random_nums(idx);
-        petrolTypeRand(i) = random_nums(idx + 1);
-        refuelTimeRand(i) = random_nums(idx + 2);
+        interArrival(i) = fix(random_nums(idx));
+        petrolTypeRand(i) = fix(random_nums(idx + 1));
+        refuelTimeRand(i) = fix(random_nums(idx + 2));
     end
 
+    % Display generated random numbers
     fprintf('Random number for inter-arrival time: ');
     fprintf('%d  ', interArrival);
     fprintf('\n');
@@ -94,71 +95,20 @@ function display()
         end
     end
 
-    % Split data
-    peak_data = [];
-    nonpeak_data = [];
+    % Split data into peak and non-peak
+    peak_data = {};
+    nonpeak_data = {};
     for i = 1:numVehicles
-        row = {i, petrolTypeNames{i}, litresArray(i), totalPrice(i), ...
-               interArrival(i), inter_arrival_times(i), arrival_times(i)};
+        row = {'', i, petrolTypeNames{i}, litresArray(i), totalPrice(i), ...
+               interArrival(i), inter_arrival_times(i), arrival_times(i), refuelTimeRand(i)};
         if is_peak_flags(i)
             peak_data = [peak_data; row];
         else
             nonpeak_data = [nonpeak_data; row];
         end
     end
-    
-    %Display Peak simulation log
-    fprintf('\n=== Simulation Log: Peak Hour Vehicles ===\n');
-    for i = 1:size(peak_data, 1)
-        vehicle_number = peak_data{i, 1};
-        arrival_time = peak_data{i, 7};
-        petrol_type = peak_data{i, 2};
-        fprintf('Vehicle %d arrived at minute %d and began refueling with %s at Pump Island.\n', ...
-        vehicle_number, arrival_time, petrol_type);
-    end
 
-    % Display Peak table
-    if ~isempty(peak_data)
-        fprintf('\n=== Peak Hour Vehicles (Random 1 to 50) ===\n');
-        fprintf('Vehicle Number | Type of Petrol | Quantity (L) | Total Price (RM) | Rand Interarrival | Interarrival | Arrival Time\n');
-        fprintf('-----------------------------------------------------------------------------------------------------------------------\n');
-        for i = 1:size(peak_data, 1)
-            vehicle_number = peak_data{i, 1};
-            inter_display = '-';
-            if i ~= 1
-                inter_display = num2str(peak_data{i, 6});
-            end
-            fprintf('%-14d | %-14s | %-12.2f | %-16.2f | %-17d | %-13s | %-12d\n', ...
-                vehicle_number, peak_data{i, 2}, peak_data{i, 3}, peak_data{i, 4}, ...
-                peak_data{i, 5}, inter_display, peak_data{i, 7});
-        end
-    end
-    
-
-    % Display Non-Peak Simulation log
-    fprintf('\n=== Simulation Log: Non-Peak Hour Vehicles ===\n');
-    for i = 1:size(nonpeak_data, 1)
-        vehicle_number = nonpeak_data{i, 1};
-        arrival_time = nonpeak_data{i, 7};
-        petrol_type = nonpeak_data{i, 2};
-        fprintf('Vehicle %d arrived at minute %d and began refueling with %s at Pump Island.\n', ...
-        vehicle_number, arrival_time, petrol_type);
-    end
-    
-    % Display Non-Peak table
-    if ~isempty(nonpeak_data)
-        fprintf('\n=== Non-Peak Hour Vehicles (Random 51 to 100) ===\n');
-        fprintf('Vehicle Number | Type of Petrol | Quantity (L) | Total Price (RM) | Rand Interarrival | Interarrival | Arrival Time\n');
-        fprintf('-----------------------------------------------------------------------------------------------------------------------\n');
-        for i = 1:size(nonpeak_data, 1)
-            vehicle_number = nonpeak_data{i, 1};
-            inter_display = '-';
-            if i ~= 1
-                inter_display = num2str(nonpeak_data{i, 6});
-            end
-            fprintf('%-14d | %-14s | %-12.2f | %-16.2f | %-17d | %-13s | %-12d\n', ...
-                vehicle_number, nonpeak_data{i, 2}, nonpeak_data{i, 3}, nonpeak_data{i, 4}, ...
-                nonpeak_data{i, 5}, inter_display, nonpeak_data{i, 7});
-        end
-    end
+    % Call processor
+    process_and_display(peak_data, 'Peak Hour Vehicles (Random 1 to 50)');
+    process_and_display(nonpeak_data, 'Non-Peak Hour Vehicles (Random 51 to 100)');
 end
