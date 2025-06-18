@@ -58,7 +58,7 @@ function setup_and_display_tables()
     fprintf('+--------------------+---------------+----------+------------+\n');
     for i = 1:size(sim_data.inter.Time, 1)
         range_str = sprintf('%d - %d', sim_data.inter.firstNum(i), sim_data.inter.lastNum(i));
-        fprintf('| %-18d | %-13.2f | %-8.2f | %-10s |\n', sim_data.inter.Time(i), sim_data.inter.Prob(i), sim_data.inter.CDF(i), range_str);
+        fprintf('| %-18.1f | %-13.2f | %-8.2f | %-10s |\n', sim_data.inter.Time(i), sim_data.inter.Prob(i), sim_data.inter.CDF(i), range_str);
     end
     fprintf('+--------------------+---------------+----------+------------+\n');
 
