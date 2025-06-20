@@ -20,7 +20,7 @@ function evaluate_result(data)
    
     fprintf('\n====== Result evaluation ======\n');    
     fprintf('Average Waiting Time                     : %.2f \n', avg_waiting_time);
-    fprintf('Average Time Spent In Ihe System         : %.2f \n', avg_time_spent);
+    fprintf('Average Time Spent In The System         : %.2f \n', avg_time_spent);
     fprintf('Probability That A Customer Has to Wait  : %.2f \n', probability_wait);
     fprintf('Average Service Time                     : %.2f \n', avg_service_time);      
 end
