@@ -17,12 +17,6 @@ function evaluate_result(data)
     avg_time_spent = total_time_spend / total_cars;
     avg_service_time = total_refuel_time / total_cars;
     probability_wait = waiting_customers / total_cars;
-    
-   % fprintf('Total Number of Cars: %d\n', total_cars);
-   % fprintf('Total waiting time : %.2f\n', total_waiting_time);
-   % fprintf('Total time spent : %.2f\n', total_time_spend);
-   % fprintf('Total refuel time : %.2f\n', total_refuel_time);
-   % fprintf('Total waiting customer : %d\n', waiting_customers); 
    
     fprintf('\n====== Result evaluation ======\n');    
     fprintf('Average Waiting Time                     : %.2f \n', avg_waiting_time);
