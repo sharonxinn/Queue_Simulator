@@ -115,6 +115,10 @@ function process_and_display(data, label)
                 safe_str(pump_data{i,10}), safe_str(pump_data{i,11}), safe_str(pump_data{i,12}), ...
                 data{i,13}, data{i,14});
     end
+    
+    
+    %calculate the avg
+    evaluate_result(data);
 end
 
 function s = safe_str(v)
