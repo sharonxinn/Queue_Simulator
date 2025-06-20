@@ -1,8 +1,26 @@
-function setup_and_display_tables() 
+function setup_and_display_tables()
+    % This function creates data and displays it
 
-    fprintf('==============================================\n');
-    fprintf('--- PETROL STATION SIMULATION: INPUT DATA ---\n');
-    fprintf('==============================================\n\n');
+    % --- new header ---
+    fprintf('+-----------------------------------------------------------------+\n');
+    fprintf('|                                                                 |\n');
+    fprintf('|      W E L C O M E   T O   P E T R O N A S   S T A T I O N      |\n');
+    fprintf('|                                                                 |\n');
+    fprintf('|                      .------------------.                       |\n');
+    fprintf('|                     /                  \                        |\n');
+    fprintf('|                    |   [------------]   |                       |\n');
+    fprintf('|                    |   [  RM 0.00   ]   |                       |\n');
+    fprintf('|                    |   [ LITRE 0.00 ]   |                       |\n');
+    fprintf('|                    |   [------------]   |                       |\n');
+    fprintf('|                    |                    |                       |\n');
+    fprintf('|                    |     [1] [2] [3]    |                       |\n');
+    fprintf('|                    |     [4] [5] [6]    |                       |\n');
+    fprintf('|                    |     [7] [8] [9]    |                       |\n');
+    fprintf('|                    |     [  CLEAR  ]    |                       |\n');
+    fprintf('|                    `--------------------;                       |\n');
+    fprintf('|                                                                 |\n');
+    fprintf('+-----------------------------------------------------------------+\n\n');
+
 
     % --- Create all the data and store it in a struct ---
     sim_data = struct();
