@@ -140,5 +140,5 @@ function display()
    
     fprintf('\n====== Non-Peak Hours Log Simulation ====== \n');
     process_and_display(nonpeak_data, 'Non-Peak Hour Vehicles (Random 51 to 100)');
-   
+    
 end
